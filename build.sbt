@@ -3,7 +3,7 @@ organization := "com.tikal"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala) //enable plugin
+lazy val root = (project in file(".")).enablePlugins(PlayScala,DockerPlugin) //enable plugin
 
 scalaVersion := "2.12.3"
 lazy val mongoVersion = "3.1.1"
