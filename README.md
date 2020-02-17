@@ -1,11 +1,11 @@
 # ETML
 POST /etl{
-	sourcetype: postgres
-            sourceurl: [url]
-            Targettype: bigquery
-            Targeturl:url
-            sql:
-            Targettable:
+	sourcetype: postgres,
+            sourceurl: [url],
+            targetType: bigquery,
+            targetUrl:url,
+            sql:,
+            Targettable:,
             [preductioncolumn]
 }
 Return id
