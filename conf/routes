@@ -18,7 +18,7 @@
 #      description: failed
 ###
 #POST     /api/test                           controllers.UserController.login
-POST     /api/test                           controllers.UserController.test
+GET     /api/test                           controllers.UserController.test
 
 
 ### NoDocs ###
