@@ -3,7 +3,7 @@ organization := "com.tikal"
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SwaggerPlugin) //enable plugin
+lazy val root = (project in file(".")).enablePlugins(PlayScala) //enable plugin
 
 scalaVersion := "2.12.3"
 lazy val mongoVersion = "3.1.1"
@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   specs2 % Test,
   "org.specs2" %% "specs2-matcher-extra" % "3.9.5" % Test,
   "com.github.tototoshi" %% "play-json4s-native" % "0.8.0",
+  "com.facebook.presto" % "presto-jdbc" % "0.231.1",
   "org.mongodb" %% "casbah-commons" % mongoVersion,
   "org.mongodb" %% "casbah-core" % mongoVersion,
   "org.mongodb" %% "casbah-query" % mongoVersion,
@@ -38,7 +39,7 @@ libraryDependencies ++= Seq(
   "org.scalaj" % "scalaj-http_2.12" % "2.3.0",
   "com.stripe" % "stripe-java" % "5.22.1",
   "com.google.api-client" % "google-api-client" % "1.20.0",
-  "org.webjars" % "swagger-ui" % "2.2.0",  //play-swagger ui integration
+//  "org.webjars" % "swagger-ui" % "2.2.0",  //play-swagger ui integration
   "org.postgresql" % "postgresql" % "9.4.1212",
   "com.typesafe.akka" %% "akka-slf4j" % "2.5.8",
   "com.typesafe.akka" %% "akka-stream" % "2.5.8",

@@ -1,12 +1,12 @@
 package controllers
 
-import java.sql.ResultSet
-import java.util.UUID
+import java.sql.{DriverManager, ResultSet, SQLException}
 
 import com.github.tototoshi.play2.json4s.Json4s
 import com.typesafe.scalalogging.LazyLogging
 import org.joda.time.DateTime
 import org.json4s.DefaultFormats
+import java.sql.ResultSet
 
 import scala.collection.mutable.ArrayBuffer
 import scala.io.Source
@@ -24,7 +24,7 @@ import play.api.mvc._
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
  */
-case class TestDetails(user: String)
+case class EtlDetails(sourceCatalog: String, destCatalog : String , sql : String, destTable : String)
 
 @Singleton
 class UserController @Inject()( json4s: Json4s,cc: ControllerComponents) extends AbstractController(cc) with LazyLogging{
@@ -34,10 +34,47 @@ class UserController @Inject()( json4s: Json4s,cc: ControllerComponents) extends
   implicit val formats = new DefaultFormats {}
   var tokens = ArrayBuffer.empty[String]
 
+  val url = "jdbc:presto://18.194.75.75:8080/"
 
+  val connection = DriverManager.getConnection(url,"test",null)
+
+  def etl() = Action(json4s.json) { implicit request =>
+
+    val data = request.body.extract[EtlDetails]
+    val url = s"jdbc:presto://18.194.75.75:8080/${data.sourceCatalog.replace('.','/')}"
+
+    val connection = DriverManager.getConnection(url,"test",null)
+
+    val query = s"create table  ${data.destCatalog}.${data.destTable} as  ${data.sql}"
+    val stmt = connection.createStatement
+    val rs = stmt.execute(query)
+    Ok(Json.obj("count"->1)).withHeaders(headers: _*)
+  }
 
   def test() = Action { implicit request =>
-    Ok(Json.obj("id"->"12345")).withHeaders(headers: _*)
+
+
+    import java.sql.Connection
+    import java.sql.DriverManager
+
+
+    val query = "create table  postgres.public.test2 as  select a,b from postgres.public.test"
+
+      val stmt = connection.createStatement
+      val rs = stmt.execute(query)
+//      var count = 0;
+//      while ( {
+//        rs.next
+//      }) {
+//        val a = rs.getString("a")
+//       count +=1
+//        System.out.println(a)
+//      }
+    if (stmt != null) stmt.close
+    // properties
+    //val url = "jdbc:presto://example.net:8080/hive/sales?user=test&password=secret&SSL=true"
+    //val connection = DriverManager.getConnection(url)
+    Ok(Json.obj("count"->1)).withHeaders(headers: _*)
    // val data = request.body.extract[LoginDetails]
 //    if (Set("Loginworks","nab123").contains(data.password)){
 //      val t = UUID.randomUUID().toString
