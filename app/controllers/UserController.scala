@@ -36,9 +36,9 @@ class UserController @Inject()( json4s: Json4s,cc: ControllerComponents) extends
 
 
 
-  def test() = Action() { implicit request =>
+  def test() = Action { implicit request =>
     Ok(Json.obj("id"->"12345")).withHeaders(headers: _*)
-//    val data = request.body.extract[LoginDetails]
+   // val data = request.body.extract[LoginDetails]
 //    if (Set("Loginworks","nab123").contains(data.password)){
 //      val t = UUID.randomUUID().toString
 //      tokens+=t
